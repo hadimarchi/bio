@@ -5,4 +5,4 @@ from contextlib import contextmanager
 
 @contextmanager
 def handlemanager(handle):
-    pass
+    

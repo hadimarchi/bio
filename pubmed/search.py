@@ -4,7 +4,7 @@
 
 
 import json
-from Bio import Entrez as Entrez
+from Bio import Entrez
 
 
 

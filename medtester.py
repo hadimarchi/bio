@@ -1,5 +1,5 @@
-from pubmed import search
+from pubmed import ProgMed
 
-myMed = search.ProgMed('hadimarchi@alaska.edu')
+myMed = ProgMed('hadimarchi@alaska.edu')
 
 myMed.search('adderall', 'pubmed', 'relevance', 20)
