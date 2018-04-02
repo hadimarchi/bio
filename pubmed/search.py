@@ -3,19 +3,21 @@
 # Created: 12/14/17
 
 from .handlemanager import esearchmanager, efetchmanager
+from .options import Options
 import json
 from Bio import Entrez
 
 
 class ProgMed():
-    def __init__(self, email):
-        self.email = email
-        self.results = ""
+    def __init__(self):
+        self.options = Options()
+        Entrez.email = self.options.email
 
-    def search(self, query, db, sort, retmax):
-        Entrez.email = self.email
-        self.db = db
-        with esearchmanager(query=query, db=self.db, sort=sort, retmax=retmax) as search_handle:
+    def search(self, query):
+        with esearchmanager(query=query, db=self.options.database,
+                            sort=self.options.search_method,
+                            retmax=self.options.max_hits) as search_handle:
+
             self.results = Entrez.read(search_handle)
             self.parse_for_ids()
             self.fetch_articles()
@@ -29,12 +31,12 @@ class ProgMed():
 
     def fetch_articles(self):
         for id in self.id_list:
-            with efetchmanager(db=self.db, id=id) as fetch_handle:
+            with efetchmanager(db=self.options.database, id=id) as fetch_handle:
                 record = Entrez.read(fetch_handle)["PubmedArticle"][0]['MedlineCitation']['Article']
 
                 self.write_article(id=id,
-                                   title=record['ArticleTitle'],
-                                   abstract=record['Abstract'])
+                                   title=record.get('ArticleTitle').replace('/', ''),
+                                   abstract=record.get('Abstract'))
 
     def print_results(self, handle):
         print(self.results)
