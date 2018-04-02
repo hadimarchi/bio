@@ -32,7 +32,8 @@ class ProgMed():
     def fetch_articles(self):
         for id in self.id_list:
             with efetchmanager(db=self.options.database, id=id) as fetch_handle:
-                record = Entrez.read(fetch_handle)["PubmedArticle"][0]['MedlineCitation']['Article']
+                record = Entrez.read(
+                    fetch_handle)["PubmedArticle"][0]['MedlineCitation']['Article']
 
                 self.write_article(id=id,
                                    title=record.get('ArticleTitle').replace('/', ''),
