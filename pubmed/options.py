@@ -7,7 +7,6 @@ class Options:
         self.config = SafeConfigParser()
         self.config_path = os.path.join(os.getcwd(), "pubmed/searcher.cfg")
         self.config.read(self.config_path)
-        print(self.config.sections())
         self.get_options()
 
     def get_options(self):

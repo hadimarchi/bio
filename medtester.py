@@ -1,7 +1,9 @@
-from pubmed.search import ProgMed
+from pubmed.search import EntrezDbSearcher
 
-myMed = ProgMed()
-
+myMed = EntrezDbSearcher()
+myMed.search("alpha theta training")
+myMed.search("neurofeedback")
 myMed.search('vyvanse')
 myMed.search('sarcosine')
 myMed.search('dissociation')
+myMed.search("support system")

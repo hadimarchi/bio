@@ -9,7 +9,7 @@ from Bio import Entrez
 import os
 
 
-class ProgMed():
+class EntrezDbSearcher():
     def __init__(self):
         self.options = Options()
         Entrez.email = self.options.email
@@ -27,10 +27,15 @@ class ProgMed():
         self.id_list = self.results['IdList']
 
     def write_article(self, **args):
-        with open("{}/{}.json".format(
+        with open("{}/{}.md".format(
                 os.path.join(self.options.articles_path, args['query']),
                 args['title']), 'w') as article:
-            json.dump(args, article)
+            try:
+                article.write("#### {}\n {}".format(args['title'],
+                                                    args['abstract']['AbstractText']))
+            except Exception:
+                article.write("#### {}\n {}".format(args['title'],
+                                                    args['abstract']))
 
     def ensure_query_directory(self, query):
         if not os.path.exists(os.path.join(self.options.articles_path, query)):
@@ -47,6 +52,3 @@ class ProgMed():
                                    title=record.get('ArticleTitle').replace('/', ''),
                                    abstract=record.get('Abstract'),
                                    query=query)
-
-    def print_results(self, handle):
-        print(self.results)
