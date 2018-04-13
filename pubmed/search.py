@@ -32,10 +32,11 @@ class EntrezDbSearcher():
                 args['title']), 'w') as article:
             try:
                 article.write("#### {}\n {}".format(args['title'],
-                                                    args['abstract']['AbstractText']))
+                                                    (args['abstract']['AbstractText'][0]).strip(
+                                                    '"}{"')))
             except Exception:
                 article.write("#### {}\n {}".format(args['title'],
-                                                    args['abstract']))
+                                                    "NO ABSTRACT"))
 
     def ensure_query_directory(self, query):
         if not os.path.exists(os.path.join(self.options.articles_path, query)):
