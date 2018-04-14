@@ -21,6 +21,13 @@ def parse_object(article_object, entry):
         return article_object[entry]
 
 
+def write_dict(dictionary):
+    dict_str = ""
+    for k, v in dictionary.items():
+        dict_str = dict_str + "\n{}\n".format(v)
+    return dict_str
+
+
 def find_dict_element_from_key(key, dictionary):
     for k, v in dictionary.items():
         if k == key:
