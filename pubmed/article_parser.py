@@ -23,8 +23,8 @@ class ArticleParser:
 
     def refine_article(self):
         refined_article = {}
-        refined_article['AbstractText'] = find('AbstractText',
-                                               self.parsed_article)
+        abstract = find('AbstractText', self.parsed_article)
+        refined_article['AbstractText'] = abstract if abstract is not None else "NO ABSTRACT"
         refined_article['ArticleTitle'] = find('ArticleTitle',
                                                self.parsed_article)
         return refined_article
