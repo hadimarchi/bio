@@ -21,10 +21,25 @@ def parse_object(article_object, entry):
         return article_object[entry]
 
 
+def write_without_key(value):
+    if isinstance(value, dict):
+        return f"\n{write_dict(value)}"
+    return f"\n{value}\n"
+
+
+def write_with_key(key, value):
+    if isinstance(value, dict):
+        return f"\n{key}: {write_dict(value)}"
+    return f"\n{key}: {value}\n"
+
+
 def write_dict(dictionary):
-    dict_str = ""
+    dict_str = f""
     for k, v in dictionary.items():
-        dict_str = dict_str + "\n{}\n".format(v)
+        dict_str = dict_str + (
+            write_without_key(v) if isinstance(k, int) else write_with_key(k, v)
+            )
+
     return dict_str
 
 
@@ -36,5 +51,3 @@ def find_dict_element_from_key(key, dictionary):
             element = find_dict_element_from_key(key, v)
             if element is not None:
                 return element
-
-    return None

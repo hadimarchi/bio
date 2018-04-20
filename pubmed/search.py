@@ -37,7 +37,8 @@ class EntrezDbSearcher():
         self.ensure_query_directory(query)
         for id in self.id_list:
             with efetchmanager(db=self.options.database, id=id) as fetch_handle:
-                record = Entrez.read(
-                    fetch_handle)["PubmedArticle"]
-                article_to_write = self.parser.parse_article(record[0])
+                record = Entrez.read(fetch_handle)
+                article_to_write = self.parser.parse_article(
+                    record["PubmedArticle"][0]
+                )
                 self.writer.write_article(article_to_write, query)
