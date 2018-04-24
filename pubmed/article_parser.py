@@ -8,6 +8,7 @@ from .utils import parse_list, parse_dict, find_dict_element_from_key as find
 class ArticleParser:
     def __init__(self):
         self.parsed_article = {}
+        self.pmc_ids = []
         pass
 
     def parse_article(self, article):
@@ -37,12 +38,13 @@ class ArticleParser:
         ids = OrderedDict(find('ArticleIdList',
                                self.parsed_article))
         for v in ids.values():
+            if v.attributes["IdType"] == 'pmc':
+                self.pmc_ids.append(str(v))
             id_dict[v.attributes["IdType"]] = str(v)
         return id_dict
 
     def get_date(self):
         date = find('ArticleDate', self.parsed_article).get(0, None)
-        print(date)
         if date is None:
             return
         date = asctime(strptime(f"{date['Day']} {date['Month']} {date['Year']}",

@@ -1,4 +1,5 @@
 import os
+import json
 from .utils import write_dict
 
 
@@ -30,6 +31,11 @@ class ArticleWriter:
         except Exception as e:
             print(str(e))
             pass
+
+    def write_pmc_ids(self, ids, query):
+        with open(f"{os.path.join(self.articles_path, query, query)}_pmcids.json",
+                  "w") as pmc_id_record:
+                json.dump(ids, pmc_id_record)
 
     def write_md_section(self, header, text):
         return f"\n#### {header}:\n{text}"
