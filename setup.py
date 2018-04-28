@@ -34,12 +34,21 @@ def get_article_path(config):
 
 
 if __name__ == "__main__":
-    config = SafeConfigParser()
-    print("generating config file")
-    config_path = os.path.join(os.getcwd(), "pubmed", "searcher.cfg")
+    searcher_config = SafeConfigParser()
+    print("generating searcher config file")
+    searcher_config_path = os.path.join(os.getcwd(), "pubmed", "searcher.cfg")
+    downloader_config_path = os.path.join(os.getcwd(), "downloader", "downloader.cfg")
+    get_email(searcher_config)
+    get_search_options(searcher_config)
+    get_article_path(searcher_config)
+    with open(searcher_config_path, 'w') as config_file:
+        searcher_config.write(config_file)
 
-    get_email(config)
-    get_search_options(config)
-    get_article_path(config)
-    with open(config_path, 'w') as config_file:
-        config.write(config_file)
+    print("generating downloader config file")
+    downloader_config = SafeConfigParser()
+    downloader_config['general'] = searcher_config['general']
+    downloader_config['downloading'] = {"db": "pmc",
+                                        "articles_path": searcher_config["paths"]["articles_path"],
+                                        "download_path": os.path.join(os.getcwd(), "full_articles")}
+    with open(downloader_config_path, 'w') as config_file:
+        downloader_config.write(config_file)

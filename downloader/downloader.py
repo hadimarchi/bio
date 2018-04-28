@@ -1,7 +1,10 @@
 from .handlemanager import efetchmanager
 from .options import Options
+from .article_parser import ArticleParser
 from .utils import ensure_query_directory
 from Bio import Entrez
+from bs4 import BeautifulSoup
+import json
 import os
 import lxml.etree as ET
 
@@ -9,22 +12,26 @@ import lxml.etree as ET
 class Downloader:
     def __init__(self):
         self.options = Options()
+        self.article_parser = ArticleParser()
         Entrez.email = self.options.email
 
     def download_all(self):
         for query in self.options.queries:
             ensure_query_directory(self.options.download_path, query)
             for id in self.options.ids[query]:
-                print(id)
                 with efetchmanager(db=self.options.database, id=id) as handle:
-                    article = ET.parse(handle)
-                    self.write_article(query, id, article)
+                    self.write_article(query, id, handle)
 
-    def write_article(self, query, id, article):
-        with open(os.path.join(
-                                self.options.download_path,
-                                query,
-                                f"{id}.xml"), "w") as full_article:
-            full_article.write(ET.tostring(article,
-                                           encoding='unicode',
-                                           pretty_print=True))
+    def write_article(self, query, id, handle):
+        try:
+            with open(os.path.join(
+                                    self.options.download_path,
+                                    query,
+                                    f"{id}.md"), "w") as full_article:
+                article = self.article_parser.parse_article(handle)
+                article_str = ""
+                for k, v in article.items():
+                    article_str = "\n".join([article_str, f"#### {k}:\n\n{v}"])
+                full_article.write(article_str)
+        except Exception:
+            print("Article was not valid")
