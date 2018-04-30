@@ -43,6 +43,9 @@ class ArticleParser:
             id_dict[v.attributes["IdType"]] = str(v)
         return id_dict
 
+    def reset_pmc_ids(self):
+        self.pmc_ids = []
+
     def get_date(self):
         date = find('ArticleDate', self.parsed_article).get(0, None)
         if date is None:

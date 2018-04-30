@@ -43,3 +43,4 @@ class EntrezDbSearcher():
                 )
                 self.writer.write_article(article_to_write, query)
         self.writer.write_pmc_ids(self.parser.pmc_ids, query)
+        self.parser.reset_pmc_ids()
