@@ -3,4 +3,5 @@
 articles
 full_articles
 *.txt
+!downloader_and_search_docopt.txt
 *.cfg

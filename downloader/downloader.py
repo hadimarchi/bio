@@ -3,8 +3,10 @@ from .options import Options
 from .article_parser import ArticleParser
 from .utils import ensure_query_directory
 from Bio import Entrez
-from io import open
+from bs4 import BeautifulSoup
+import json
 import os
+import lxml.etree as ET
 
 
 class Downloader:
@@ -32,14 +34,11 @@ class Downloader:
             with open(os.path.join(
                                     self.options.download_path,
                                     query,
-                                    "{}.md".format(id)),
-                      "w",
-                      encoding='utf8') as full_article:
+                                    f"{id}.md"), "w") as full_article:
                 article = self.article_parser.parse_article(handle)
-                article_str = u""
+                article_str = ""
                 for k, v in article.items():
-                    article_str = u"\n\n".join([article_str, u"#### {}:\n\n{}".format(k, v)])
+                    article_str = "\n".join([article_str, f"#### {k}:\n\n{v}"])
                 full_article.write(article_str)
-        except Exception as e:
-            print(str(e))
+        except Exception:
             print("Article was not valid")

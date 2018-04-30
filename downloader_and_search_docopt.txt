@@ -1,0 +1,6 @@
+Usage:
+    bio_cli.py search --query=<query>
+    bio_cli.py download_all
+
+Options:
+    - h --help      Show this screen
