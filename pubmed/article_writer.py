@@ -14,12 +14,12 @@ class ArticleWriter:
                           os.path.join(
                               self.articles_path,
                               query,
-                              f"{title}")),
+                              "{}".format(title))),
                       "w") as md_article:
 
                 md_article.write(self.write_md_section(
                                  'Article Title',
-                                 f"**{title}**"))
+                                 "**{}**".format(title)))
 
                 del article['ArticleTitle']
                 for k, v in article.items():
@@ -33,9 +33,10 @@ class ArticleWriter:
             pass
 
     def write_pmc_ids(self, ids, query):
-        with open(f"{os.path.join(self.articles_path, query, query)}_pmcids.json",
+        with open("{}_pmcids.json".format(os.path.join(
+                                          self.articles_path, query, query)),
                   "w") as pmc_id_record:
                 json.dump(ids, pmc_id_record)
 
     def write_md_section(self, header, text):
-        return f"\n#### {header}:\n{text}"
+        return "\n#### {}:\n{}".format(header, text)

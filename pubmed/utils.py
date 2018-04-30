@@ -23,18 +23,18 @@ def parse_object(article_object, entry):
 
 def write_without_key(value):
     if isinstance(value, dict):
-        return f"\n{write_dict(value)}"
-    return f"\n{value}\n"
+        return "\n{}".format(write_dict(value))
+    return "\n{}\n".format(value)
 
 
 def write_with_key(key, value):
     if isinstance(value, dict):
-        return f"\n{key}: {write_dict(value)}"
-    return f"\n{key}: {value}\n"
+        return "\n{}: {}".format(key, write_dict(value))
+    return "\n{}: {}\n".format(key, value)
 
 
 def write_dict(dictionary):
-    dict_str = f""
+    dict_str = ""
     for k, v in dictionary.items():
         dict_str = dict_str + (
             write_without_key(v) if isinstance(k, int) else write_with_key(k, v)

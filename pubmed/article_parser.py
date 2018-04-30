@@ -50,6 +50,9 @@ class ArticleParser:
         date = find('ArticleDate', self.parsed_article).get(0, None)
         if date is None:
             return
-        date = asctime(strptime(f"{date['Day']} {date['Month']} {date['Year']}",
+        date = asctime(strptime("{} {} {}".format(
+                                           date['Day'],
+                                           date['Month'],
+                                           date['Year']),
                        "%d %m %Y"))
         return date
