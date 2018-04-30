@@ -27,7 +27,8 @@ class Options:
         for query in self.queries:
             with open(os.path.join(self.articles_path,
                                    query,
-                                   f"{query}_{self.database}ids.json"), "r") as id_file:
+                                   "{}_{}ids.json".format(
+                                    query, self.database)), "r") as id_file:
                 self.ids[query] = json.load(id_file)
 
         print(self.ids)

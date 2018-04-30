@@ -69,7 +69,7 @@ class ArticleParser:
                 paragraphs_str = " ".join(
                     [paragraphs_str, self.get_paragraph(tag)])
             if tag.name == 'title':
-                paragraphs_str = f"\n{tag.string}".join(
+                paragraphs_str = ("\n{}".format(tag.string)).join(
                     [paragraphs_str, self.get_paragraphs(tag)]
                 )
         return paragraphs_str
