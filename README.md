@@ -1,1 +1,1 @@
-__Requires Python 3.6__
+__Requires Python 2.7__
