@@ -21,7 +21,6 @@ class Options:
 
     def get_queries(self):
         self.queries = os.listdir(self.articles_path)
-        print(self.queries)
 
     def get_ids(self):
         for query in self.queries:
@@ -29,5 +28,3 @@ class Options:
                                    query,
                                    f"{query}_{self.database}ids.json"), "r") as id_file:
                 self.ids[query] = json.load(id_file)
-
-        print(self.ids)
