@@ -17,17 +17,24 @@ class Downloader:
 
     def download_all(self):
         for query in self.options.queries:
-            self.download_all_for_query(query)
+            self._handle_query_download(query)
 
     def download_by_query(self, query):
         if query in self.options.queries:
-            self.download_all_for_query(query)
+            self._handle_query_download(query)
 
-    def download_all_for_query(self, query):
+    def _handle_query_download(self, query):
         ensure_query_directory(self.options.download_path, query)
         for id in self.options.ids[query]:
-            with efetchmanager(db=self.options.database, id=id) as handle:
-                self.write_article(query, id, handle)
+            self._handle_single_download(id, query)
+
+    def download_by_pmc_id(self, id, query):
+        ensure_query_directory(self.options.download_path, query)
+        self._handle_single_download(id, query)
+
+    def _handle_single_download(self, id, query):
+        with efetchmanager(db=self.options.database, id=id) as handle:
+            self.write_article(query, id, handle)
 
     def write_article(self, query, id, handle):
         try:
